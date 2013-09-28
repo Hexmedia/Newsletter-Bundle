@@ -1,10 +1,18 @@
-sign_up:
-    pattern: /signUp
-    defaults: { _controller: HexmediaNewsletterBundle:User:signUp }
+newsletter_sign_in:
+    pattern: /sign-up
+    defaults: { _controller: HexmediaNewsletterBundle:Person:signUp }
 
-sign_out:
-    pattern: /signOut
-    defaults: { _controller: HexmediaNewsletterBundle:User:signOut }
+newsletter_sign_out:
+    pattern: /sign-out
+    defaults: { _controller: HexmediaNewsletterBundle:Person:signOut }
+
+newsletter_thank_you:
+    pattern: /thank-you
+    defaults: { _controller: HexmediaNewsletterBundle:Person:thankYouSignIn }
+
+newsletter_thank_you_outs:
+    pattern: /thank-you-out
+    defaults: { _controller: HexmediaNewsletterBundle:Person:thankYouSignOut }
 
 _hexmedia_newsletter_mail:
     resource: "@HexmediaNewsletterBundle/Resources/config/routing/mail.yml"

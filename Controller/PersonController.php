@@ -2,10 +2,11 @@
 
 namespace Hexmedia\NewsletterBundle\Controller;
 
-use Hexmedia\NewsletterBundle\Form\Type\SignInType\SignInType;
+use Hexmedia\NewsletterBundle\Form\Type\SignInType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Person controller.
@@ -33,7 +34,7 @@ class PersonController extends Controller
         $form = $this->createForm(new SignInType());
 
         return [
-            'form' => $form
+            'form' => $form->createView()
         ];
     }
 
