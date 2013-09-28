@@ -1,0 +1,8 @@
+{% include "HexmediaAdministratorBundle:List:entities-data.html.twig" with {'entities': entities, 'entitiesCount' : entitiesCount } %}
+
+{% javascripts output='js/person-list.js'
+'@HexmediaNewsletterBundle/Resources/public/js/person-list.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% include "HexmediaAdministratorBundle:List:list.html.twig" with {'addRouteName' : 'HexMediaNewsletterPersonAdd', 'editRouteName' : 'HexMediaNewsletterPersonEdit', 'removeRouteName' : 'HexMediaNewsletterPersonDelete'} %}

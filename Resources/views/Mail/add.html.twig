@@ -1,0 +1,30 @@
+{% extends 'HexmediaContentBundle:Layout:main.html.twig' %}
+
+{% block title %}New Newsletter Mail{% endblock title %}
+
+{% block head_script %}
+    {% javascripts
+    '@HexmediaAdministratorBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@HexmediaAdministratorBundle/Resources/public/js/lib/raptor.js'
+    '@HexmediaAdministratorBundle/Resources/public/js/raptor-textarea.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block head_style %}
+    {% stylesheets filter='assetsurl'
+    '@HexmediaAdministratorBundle/Resources/public/css/raptor.css' %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body -%}
+    {{ form_start(form, {'attr' : { 'class' : 'form-horizontal' } }) }}
+    <div class="buttons-bar">
+        <a class="btn btn-warning" href="{{ path('HexMediaNewsletterMail') }}"
+           title="{{ 'Exit without edit'|trans }}">{{ 'Exit'|trans }}</a>
+        {{ form_widget(form.saveAndExit) }}
+        {{ form_widget(form.save) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

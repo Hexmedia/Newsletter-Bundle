@@ -1,0 +1,59 @@
+HexMediaNewsletterPersonAdd:
+    pattern: /add
+    defaults: { _controller: HexmediaNewsletterBundle:Person:add }
+    methods: [GET]
+    options:
+        expose: true
+
+HexMediaNewsletterPersonCreate:
+    pattern: /add
+    defaults: { _controller: HexmediaNewsletterBundle:Person:create }
+    methods: [POST]
+    options:
+        expose: true
+
+
+HexMediaNewsletterPersonEdit:
+    pattern: /{id}/edit
+    defaults: { _controller: HexmediaNewsletterBundle:Person:edit }
+    methods: [GET]
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+HexMediaNewsletterPersonUpdate:
+    pattern: /{id}/edit
+    defaults: { _controller: HexmediaNewsletterBundle:Person:update }
+    methods: [ PUT, POST ]
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+HexMediaNewsletterPersonDelete:
+    pattern: /{id}/delete
+    defaults: { _controller: HexmediaNewsletterBundle:Person:delete }
+    methods: [ POST, PUT, DELETE ]
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+HexMediaNewsletterPerson:
+    pattern: /
+    defaults: { _controller: HexmediaNewsletterBundle:Person:index }
+    methods: [ GET ]
+    options:
+        expose: true
+
+HexMediaNewsletterPersonList:
+    pattern: /list/{page}/{sort}/{pageSize}/{sortDirection}
+    defaults: { _controller: HexmediaNewsletterBundle:Person:list, page: 1, sort: id, pageSize: 10, sortDirection: asc }
+    requirements:
+        page: \d+
+        pageSize: \d+
+        sortDirection: asc|desc
+    methods: [ GET ]
+    options:
+        expose: true
