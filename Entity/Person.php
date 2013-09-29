@@ -11,8 +11,8 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  */
 class Person
 {
-//    use ORMBehaviors\Blameable\Blameable,
-//        ORMBehaviors\Timestampable\Timestampable;
+    use ORMBehaviors\Blameable\Blameable,
+        ORMBehaviors\Timestampable\Timestampable;
 
     /**
      * @var integer
@@ -46,9 +46,9 @@ class Person
 
     /**
      * @var string
-     * @ORM\Column(name="name", type="datetime", nullable=true)
+     * @ORM\Column(name="last_sent", type="datetime", nullable=true)
      */
-    private $lastSend;
+    private $lastSent;
 
     /**
      * @var \Hexmedia\NewsletterBundle\Entity\Mail
@@ -61,10 +61,19 @@ class Person
      */
     private $mails;
 
+   
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->mails = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -75,19 +84,19 @@ class Person
      * Set email
      *
      * @param string $email
-     * @return newsletter
+     * @return Person
      */
     public function setEmail($email)
     {
         $this->email = $email;
-
+    
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -95,40 +104,79 @@ class Person
     }
 
     /**
-     * Set lastSend
+     * Set name
      *
-     * @param mixed $lastSend
-     * @return newsletter
+     * @param string $name
+     * @return Person
      */
-    public function setLastSend($lastSend)
+    public function setName($name)
     {
-        $this->lastSend = $lastSend;
-
+        $this->name = $name;
+    
         return $this;
     }
 
     /**
-     * Get lastSend
+     * Get name
      *
-     * @return string
+     * @return string 
      */
-    public function getLastSend()
+    public function getName()
     {
-        return $this->lastSend;
+        return $this->name;
     }
+
     /**
-     * Constructor
+     * Set active
+     *
+     * @param boolean $active
+     * @return Person
      */
-    public function __construct()
+    public function setActive($active)
     {
-        $this->mails = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+        $this->active = $active;
     
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set lastSent
+     *
+     * @param \DateTime $lastSent
+     * @return Person
+     */
+    public function setLastSent($lastSent)
+    {
+        $this->lastSent = $lastSent;
+    
+        return $this;
+    }
+
+    /**
+     * Get lastSent
+     *
+     * @return \DateTime 
+     */
+    public function getLastSent()
+    {
+        return $this->lastSent;
+    }
+
     /**
      * Add mails
      *
      * @param \Hexmedia\NewsletterBundle\Entity\Mail $mails
-     * @return Newsletter
+     * @return Person
      */
     public function addMail(\Hexmedia\NewsletterBundle\Entity\Mail $mails)
     {

@@ -54,6 +54,9 @@ class PersonController extends Controller
      * @Template
      */
     public function thankYouSignInAction() {
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem($this->get('translator')->trans("Newsletter"));
+        $breadcrumbs->addItem($this->get('translator')->trans("Dziękujemy"));
         return [];
     }
 
