@@ -1,0 +1,4 @@
+{{ form_start(form, {action:path('newsletter_sign_in')}) }}
+    {{ form_widget(form.email, {attr:{'class': 'newsletter-input', 'placeholder':'Podaj swój adres email'|trans }}) }}
+<input type="submit" class="newsletter-submit" value=""/>
+{{ form_end(form) }}

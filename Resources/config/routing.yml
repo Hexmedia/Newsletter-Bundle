@@ -1,6 +1,6 @@
 newsletter_sign_in:
-    pattern: /sign-up
-    defaults: { _controller: HexmediaNewsletterBundle:Person:signUp }
+    pattern: /sign-in
+    defaults: { _controller: HexmediaNewsletterBundle:Person:singIn }
 
 newsletter_sign_out:
     pattern: /sign-out

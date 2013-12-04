@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Hexmedia\NewsletterBundle\Entity\Person;
+use Doctrine\DBAL\DBALException;
 
 /**
  * Person controller.
@@ -20,9 +22,28 @@ class PersonController extends Controller
      *
      * @Template
      */
-    public function signInAction(Request $request) {
+    public function signInAction(Request $request)
+    {
+        $person = new Person();
 
-       return $this->forward("HexmediaNewsletterBundle:Person:thankYouSignIn");
+        $form = $this->createForm(new SignInType(), $person);
+
+        $form->handleRequest($request);
+
+        if (!$person->getName()) {
+            $person->setName($person->getEmail());
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+
+        try {
+            $manager->persist($person);
+            $manager->flush();
+        } catch (DBALException $exception) {
+            $this->forward("HexmediaNewsletterBundle:Person:alreadySigned");
+        }
+
+        return $this->forward("HexmediaNewsletterBundle:Person:thankYouSignIn");
     }
 
     /**
@@ -30,7 +51,8 @@ class PersonController extends Controller
      *
      * @Template
      */
-    public function formAction() {
+    public function formAction()
+    {
         $form = $this->createForm(new SignInType());
 
         return [
@@ -44,7 +66,8 @@ class PersonController extends Controller
      *
      * @Template
      */
-    public function signOutAction(Request $request) {
+    public function signOutAction(Request $request)
+    {
         return [];
     }
 
@@ -53,7 +76,8 @@ class PersonController extends Controller
      *
      * @Template
      */
-    public function thankYouSignInAction() {
+    public function thankYouSignInAction()
+    {
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem($this->get('translator')->trans("Newsletter"));
         $breadcrumbs->addItem($this->get('translator')->trans("Dziękujemy"));
@@ -65,7 +89,8 @@ class PersonController extends Controller
      *
      * @Template
      */
-    public function thankYouSingOutAction() {
+    public function thankYouSingOutAction()
+    {
         return [];
     }
 }
