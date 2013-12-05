@@ -54,7 +54,6 @@ class Mail
      */
     private $persons;
 
-
     /**
      * Get id
      *
@@ -109,5 +108,69 @@ class Mail
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set sent
+     *
+     * @param \DateTime $sent
+     * @return Mail
+     */
+    public function setSent($sent)
+    {
+        $this->sent = $sent;
+    
+        return $this;
+    }
+
+    /**
+     * Get sent
+     *
+     * @return \DateTime 
+     */
+    public function getSent()
+    {
+        return $this->sent;
+    }
+
+    /**
+     * Add persons
+     *
+     * @param \Hexmedia\NewsletterBundle\Entity\Person $persons
+     * @return Mail
+     */
+    public function addPerson(\Hexmedia\NewsletterBundle\Entity\Person $persons)
+    {
+        $this->persons[] = $persons;
+    
+        return $this;
+    }
+
+    /**
+     * Remove persons
+     *
+     * @param \Hexmedia\NewsletterBundle\Entity\Person $persons
+     */
+    public function removePerson(\Hexmedia\NewsletterBundle\Entity\Person $persons)
+    {
+        $this->persons->removeElement($persons);
+    }
+
+    /**
+     * Get persons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPersons()
+    {
+        return $this->persons;
     }
 }

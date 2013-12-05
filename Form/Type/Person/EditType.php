@@ -2,6 +2,12 @@
 
 namespace Hexmedia\NewsletterBundle\Form\Type\Person;
 
-class EditType extends AbstractType {
+use Symfony\Component\Form\FormBuilderInterface;
 
+class EditType extends AbstractType {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+        $this->addDeleteButton($builder);
+    }
 }

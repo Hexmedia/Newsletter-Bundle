@@ -1,0 +1,26 @@
+{% extends 'HexmediaAdministratorBundle:Layout:edit.html.twig' %}
+
+{% block title %}{{ 'Add Mail'|trans }}{% endblock title %}
+
+{% block body -%}
+    {{ form_start(form, {'attr' : { 'class' : 'form-horizontal' } }) }}
+    <div class="buttons-bar">
+        {% include "HexmediaAdministratorBundle:Form:buttons.html.twig" with {'form' : form, 'exit': 'HexMediaNewsletterMail'} only %}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <fieldset>
+                <legend>{{ 'Title'|trans }}</legend>
+                {{ form_widget(form.title) }}
+                {{ form_errors(form.title) }}
+            </fieldset>
+            <fieldset>
+                <legend>{{ 'Content'|trans }}</legend>
+                {{ form_widget(form.content) }}
+                {{ form_errors(form.content) }}
+            </fieldset>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

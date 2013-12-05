@@ -1,0 +1,7 @@
+{% extends "HexmediaAdministratorBundle::admin.html.twig" %}
+
+{% block title %}{% trans %}List of all mail receviers{% endtrans %}{% endblock %}
+
+{% block body %}
+    {{ render(controller('HexmediaNewsletterBundle:AdminPerson:list', {page: page, sort: sort, direction: direction})) }}
+{% endblock %}

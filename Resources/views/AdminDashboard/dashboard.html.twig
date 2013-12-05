@@ -1,0 +1,16 @@
+{% extends "HexmediaCatalogBundle::admin.html.twig" %}
+
+{% block title %}{{ 'Newsletter Dashboard'|trans }}{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-6">
+        <a href="{{ path("HexMediaNewsletterMailAdd") }}" class="btn btn-primary">{{ 'Add new mail'|trans }}</a>
+        <a href="{{ path("HexMediaNewsletterMail") }}" class="btn btn-primary">{{ 'List of all mails'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <a href="{{ path("HexMediaNewsletterPersonAdd") }}" class="btn btn-primary">{{ 'Add new receiver'|trans }}</a>
+        <a href="{{ path("HexMediaNewsletterPerson") }}" class="btn btn-primary">{{ 'List of all receivers'|trans }}</a>
+    </div>
+</div>
+{% endblock %}

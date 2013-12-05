@@ -1,0 +1,3 @@
+<td>{{ entity.title }}</td>
+<td>{% if entity.sent %}{{ 'Yes'|trans }}{% else %}{{ 'No'|trans }}{% endif %}</td>
+<td>{% if entity.sent %}{{ entity.sent|simple_time_formatter }}{% else %}&nbsp;{% endif %}</td>

@@ -2,8 +2,8 @@ parameters:
 #    hexmedia_newsletter.example.class: Hexmedia\NewsletterBundle\Example
 
 services:
-#    hexmedia.newsletter.menu.subscriber:
-#        class: Hexmedia\NewsletterBundle\Menu\Subscriber
-#        arguments: [ "@translator" ]
-#        tags:
-#            - { name: kernel.event_subscriber }
+    hexmedia.newsletter.menu.subscriber:
+        class: Hexmedia\NewsletterBundle\Menu\Subscriber
+        arguments: [ "@translator" ]
+        tags:
+            - { name: kernel.event_subscriber }

@@ -1,0 +1,20 @@
+{% extends 'HexmediaAdministratorBundle:Layout:edit.html.twig' %}
+
+{% block title %}{{ 'Add Person'|trans }}{% endblock title %}
+
+{% block body -%}
+    {{ form_start(form, {'attr' : { 'class' : 'form-horizontal' } }) }}
+    <div class="buttons-bar">
+        {% include "HexmediaAdministratorBundle:Form:buttons.html.twig" with {'form' : form, 'exit': 'HexMediaNewsletterPerson'} only %}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <fieldset>
+                {{ form_row(form.name) }}
+                {{ form_row(form.email) }}
+            </fieldset>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

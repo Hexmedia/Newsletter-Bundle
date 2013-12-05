@@ -1,0 +1,66 @@
+HexMediaNewsletterMailAdd:
+    pattern: /add
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:add }
+    methods: [GET]
+    options:
+        expose: true
+
+HexMediaNewsletterMailCreate:
+    pattern: /add
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:create }
+    methods: [POST]
+    options:
+        expose: true
+
+HexMediaNewsletterMailEdit:
+    pattern: /{id}/edit
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:edit }
+    methods: [GET]
+    options:
+        expose: true
+
+HexMediaNewsletterMailSort:
+    pattern: /sort/{id}/{direction}
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:sort, direction: 1}
+    options:
+        expose: true
+
+HexMediaNewsletterMailUpdate:
+    pattern: /{id}/edit
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:update }
+    methods: [ PUT, POST ]
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+HexMediaNewsletterMailDelete:
+    pattern: /{id}/delete
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:delete }
+    methods: [ POST, PUT, DELETE ]
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+HexMediaNewsletterMail:
+    pattern: /{page}/{sort}/{direction}
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:index, page: 1, sort: obj.id, direction: desc }
+    methods: [ GET ]
+    requirements:
+        page: \d+
+        sort: (obj\.[a-z]+)
+        direction: asc|desc
+    options:
+        expose: true
+
+HexMediaNewsletterMailList:
+    pattern: /list/{page}/{sort}/{pageSize}/{sortDirection}
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:list, page: 1, sort: obj.id, direction: desc }
+    requirements:
+        page: \d+
+        sort: (obj\.[a-z]+)
+        direction: asc|desc
+    methods: [ GET ]
+    options:
+        expose: true

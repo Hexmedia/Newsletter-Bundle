@@ -1,0 +1,11 @@
+_hexmedia_newsletter_mail:
+    resource: "@HexmediaNewsletterBundle/Resources/config/routing/admin/mail.yml"
+    prefix:   /mail
+
+_hexmedia_newsletter_person:
+    resource: "@HexmediaNewsletterBundle/Resources/config/routing/admin/person.yml"
+    prefix: /person
+
+_hexmedia_newsletter_dashboard:
+    resource: "@HexmediaNewsletterBundle/Resources/config/routing/admin/dashboard.yml"
+    prefix: /

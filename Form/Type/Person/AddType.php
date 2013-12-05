@@ -2,6 +2,13 @@
 
 namespace Hexmedia\NewsletterBundle\Form\Type\Person;
 
-class AddType extends AbstractType {
+use Symfony\Component\Form\FormBuilderInterface;
 
+class AddType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+        $this->addAddNextButton($builder);
+    }
 }

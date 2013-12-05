@@ -2,11 +2,11 @@
 
 namespace Hexmedia\NewsletterBundle\Form\Type\Person;
 
-use Symfony\Component\Form\AbstractType as AbstractTypeBase;
+use Hexmedia\AdministratorBundle\Form\Type\CrudType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AbstractType extends AbstractTypeBase
+class AbstractType extends CrudType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,7 +15,14 @@ class AbstractType extends AbstractTypeBase
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email');
+            ->add('email', 'email', [
+                'label' => 'Email'
+            ])
+            ->add('name', 'text', [
+                'label' => 'Name'
+            ]);
+
+        $this->addButtons($builder);
     }
 
     /**

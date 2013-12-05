@@ -1,0 +1,6 @@
+HexMediaNewsletterDashboard:
+    pattern: /
+    defaults: { _controller: HexmediaNewsletterBundle:AdminDashboard:dashboard }
+    methods: [GET]
+    options:
+        expose: true

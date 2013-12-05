@@ -1,0 +1,66 @@
+HexMediaNewsletterPersonAdd:
+    pattern: /add
+    defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:add }
+    methods: [GET]
+    options:
+        expose: true
+
+HexMediaNewsletterPersonCreate:
+    pattern: /add
+    defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:create }
+    methods: [POST]
+    options:
+        expose: true
+
+HexMediaNewsletterPersonEdit:
+    pattern: /{id}/edit
+    defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:edit }
+    methods: [GET]
+    options:
+        expose: true
+
+HexMediaNewsletterPersonSort:
+    pattern: /sort/{id}/{direction}
+    defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:sort, direction: 1}
+    options:
+        expose: true
+
+HexMediaNewsletterPersonUpdate:
+    pattern: /{id}/edit
+    defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:update }
+    methods: [ PUT, POST ]
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+HexMediaNewsletterPersonDelete:
+    pattern: /{id}/delete
+    defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:delete }
+    methods: [ POST, PUT, DELETE ]
+    requirements:
+        id: \d+
+    options:
+        expose: true
+
+HexMediaNewsletterPerson:
+    pattern: /{page}/{sort}/{direction}
+    defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:index, page: 1, sort: obj.id, direction: desc }
+    methods: [ GET ]
+    requirements:
+        page: \d+
+        sort: (obj\.[a-z]+)
+        direction: asc|desc
+    options:
+        expose: true
+
+HexMediaNewsletterPersonList:
+    pattern: /list/{page}/{sort}/{pageSize}/{sortDirection}
+    defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:list, page: 1, sort: obj.id, direction: desc }
+    requirements:
+        page: \d+
+        sort: (obj\.[a-z]+)
+        direction: asc|desc
+    methods: [ GET ]
+    options:
+        expose: true
