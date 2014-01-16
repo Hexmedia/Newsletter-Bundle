@@ -49,7 +49,7 @@ HexMediaNewsletterPerson:
     methods: [ GET ]
     requirements:
         page: \d+
-        sort: (obj\.[a-zA-Z0-0]+)
+        sort: ((obj)|(parent)\.[a-zA-Z0-0]+)
         direction: asc|desc
     options:
         expose: true
@@ -59,7 +59,7 @@ HexMediaNewsletterPersonList:
     defaults: { _controller: HexmediaNewsletterBundle:AdminPerson:list, page: 1, sort: obj.id, direction: desc }
     requirements:
         page: \d+
-        sort: (obj\.[a-zA-Z0-0]+)
+        sort: ((obj)|(parent)\.[a-zA-Z0-0]+)
         direction: asc|desc
     methods: [ GET ]
     options:
