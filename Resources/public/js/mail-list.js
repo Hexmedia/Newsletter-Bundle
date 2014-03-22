@@ -12,19 +12,19 @@ var listModelInstance;
         };
         columns[1] = {
             "name": "title",
-            "display": Translator.get("Title"),
+            "display": Translator.trans("Title"),
             "type": "text",
             "sortable": true
         };
         columns[2] = {
             "name": "sent",
-            "display": Translator.get("Sent"),
+            "display": Translator.trans("Sent"),
             "type": "date",
             "sortable": true
         };
         columns[3] = {
             "name": "created",
-            "display": Translator.get("Created"),
+            "display": Translator.trans("Created"),
             "type": "date",
             "sortable": true
         };
@@ -53,7 +53,7 @@ var listModelInstance;
                     dataType: "json",
                     type: "DELETE",
                     success: function(response) {
-                        alerts.displaySuccess(Translator.get("Succesfully removed."), 3);
+                        alerts.displaySuccess(Translator.trans("Succesfully removed."), 3);
                         listModelInstance.getData();
                     },
                     error: function(a, b, errorMessage, d) {

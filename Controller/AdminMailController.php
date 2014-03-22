@@ -4,6 +4,7 @@ namespace Hexmedia\NewsletterBundle\Controller;
 
 use Hexmedia\AdministratorBundle\Controller\CrudController as Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Hexmedia\NewsletterBundle\Entity\Person;
 use Hexmedia\NewsletterBundle\Repository\Doctrine\MailRepository;
 use Hexmedia\NewsletterBundle\Entity\Mail;
 use Hexmedia\NewsletterBundle\Form\Type\Mail\AddType;
@@ -108,5 +109,46 @@ class AdminMailController extends Controller
     public function updateAction(Request $request, $id)
     {
         return parent::updateAction($request, $id);
+    }
+
+    public function sendAction($id) {
+        $mailRepo = $this->getDoctrine()->getRepository("HexmediaNewsletterBundle:Mail");
+        $personRepo = $this->getDoctrine()->getRepository("HexmediaNewsletterBundle:Person");
+
+        $mail = $mailRepo->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($mail instanceof Mail);
+
+        $persons = $personRepo->findAll();
+
+        $mailContent = $mail->getContent();
+
+        foreach ($persons as $person) {
+            if ($person instanceof Person)
+            $message = \Swift_Message::newInstance()
+                ->setSubject($mail->getTitle())
+                ->setFrom($this->container->getParameter("newsletter_from"), $this->container->getParameter("newsletter_formname"))
+                ->setTo($person->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        $this->container->getParameter("newsletter_template"),
+                        array('content' => $mail->getContent())
+                    )
+                )
+            ;
+
+            $mail->addPerson($person);
+
+            $this->get('mailer')->send($message);
+        }
+
+        $mail->setSent(new \DateTime());
+
+        $entityManager->persist($mail);
+        $entityManager->flush();
+
+        return $this->redirect($this->get("router")->generate("HexMediaNewsletterMail"));
     }
 }

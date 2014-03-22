@@ -6,6 +6,12 @@
     {{ form_start(form, {'attr' : { 'class' : 'form-horizontal' } }) }}
     <div class="buttons-bar">
         {% include "HexmediaAdministratorBundle:Form:buttons.html.twig" with {'form' : form, 'exit': 'HexMediaNewsletterMail'} only %}
+        {% if entity.sent == false %}
+            <a href="{{ path("HexMediaNewsletterMailSend", {'id': entity.id}) }}"
+               class="btn btn-danger">{{ 'Send'|trans }}</a>
+        {% else %}
+            {{ 'Already Sent'|trans }}
+        {% endif %}
     </div>
     <div class="row">
         <div class="col-md-12">

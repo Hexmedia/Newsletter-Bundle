@@ -37,7 +37,7 @@ HexMediaNewsletterMailUpdate:
 HexMediaNewsletterMailDelete:
     pattern: /{id}/delete
     defaults: { _controller: HexmediaNewsletterBundle:AdminMail:delete }
-    methods: [ POST, PUT, DELETE ]
+    methods: [ POST, PUT, DELETE, GET ]
     requirements:
         id: \d+
     options:
@@ -61,6 +61,15 @@ HexMediaNewsletterMailList:
         page: \d+
         sort: ((obj)|(parent)\.[a-zA-Z0-0]+)
         direction: asc|desc
+    methods: [ GET ]
+    options:
+        expose: true
+
+HexMediaNewsletterMailSend:
+    pattern: /send/{id}
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:send }
+    requirements:
+        id: \d+
     methods: [ GET ]
     options:
         expose: true
