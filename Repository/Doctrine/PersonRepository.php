@@ -4,6 +4,7 @@ namespace Hexmedia\NewsletterBundle\Repository\Doctrine;
 
 use Doctrine\ORM\EntityRepository;
 use Hexmedia\AdministratorBundle\Repository\Doctrine\ListTrait;
+use Hexmedia\NewsletterBundle\Entity\Mail;
 use Hexmedia\NewsletterBundle\Repository\PersonRepositoryInterface;
 
 /**
@@ -15,4 +16,15 @@ use Hexmedia\NewsletterBundle\Repository\PersonRepositoryInterface;
 class PersonRepository extends EntityRepository implements PersonRepositoryInterface
 {
     use ListTrait;
+
+    public function getPeopleToSent(Mail $mail) {
+        $queryBuilder = $this->createQueryBuilder("p");
+
+        $queryBuilder->leftJoin('p.mails', 'm');
+        $queryBuilder->where(
+            $queryBuilder->expr()->isNull("m.id")
+        );
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

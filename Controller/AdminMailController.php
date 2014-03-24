@@ -121,54 +121,58 @@ class AdminMailController extends Controller
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        if ($mail instanceof Mail) ;
+        if ($mail instanceof Mail) {
 
-        $persons = $personRepo->findAll();
+            $persons = $personRepo->getPeopleToSent($mail);
 
-        $mailContent = $mail->getContent();
+            $asset = $this->get('templating.helper.assets');
 
-        $asset = $this->get('templating.helper.assets');
+            foreach ($persons as $person) {
+                if ($person instanceof Person) {
 
-        foreach ($persons as $person) {
-            if ($person instanceof Person) {
-                $message = \Swift_Message::newInstance()
-                    ->setSubject($mail->getTitle())
-                    ->setFrom($this->container->getParameter("newsletter_from"), $this->container->getParameter("newsletter_formname"))
-                    ->setTo($person->getEmail())
-                    ->setCharset("UTF-8")
-                    ->setContentType("text/html");
-                $message
-                    ->setBody(
-                        $this->renderView(
-                            $this->container->getParameter("newsletter_template"),
-                            [
-                                'content' => $mail->getContent(),
-                                'title' => $mail->getTitle(),
-                                'header1' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/header1.jpg"))),
-                                'header2' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/header2.jpg"))),
-                                'header3' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/header3.jpg"))),
-                                'sponsors' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/sponsors.gif"))),
-                                'spacer1' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/spacer1.jpg"))),
-                                'spacer2' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/spacer2.gif"))),
-                                'place' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/place.jpg"))),
-                                'mail' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/mail.jpg"))),
-                                'phone' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/phone.jpg"))),
-                                'apollo' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/apollo.jpg")))
-                            ]
-                        ), 'text/html'
-                    );
-
-                $mail->addPerson($person);
+                    $asset = $this->get('templating.helper.assets');
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject($mail->getTitle())
+                        ->setFrom($this->container->getParameter("newsletter_from"), $this->container->getParameter("newsletter_formname"))
+                        ->setTo($person->getEmail(), $person->getName())
+                        ->setCharset("UTF-8")
+                        ->setContentType("text/html");
+                    $message
+                        ->setBody(
+                            $this->renderView(
+                                $this->container->getParameter("newsletter_template"),
+                                [
+                                    'content' => $mail->getContent(),
+                                    'title' => $mail->getTitle(),
+                                    'header1' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/header1.jpg"))),
+                                    'header2' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/header2.jpg"))),
+                                    'header3' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/header3.jpg"))),
+                                    'spacer1' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/spacer1.jpg"))),
+                                    'spacer2' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/spacer2.gif"))),
+                                    'place' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/place.jpg"))),
+                                    'mail' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/mail.jpg"))),
+                                    'phone' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/phone.jpg"))),
+                                    'apollo' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/apollo.jpg"))),
+                                    'sponsors' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/sponsors.gif"))),
+                                ]
+                            ), 'text/html'
+                        );
 
 
-                $this->get('mailer')->send($message);
+                    $failures = [];
+
+                    $this->get('mailer')->send($message, $failures);
+
+                    $person->addMail($mail);
+                    $entityManager->persist($person);
+                }
             }
+
+            $mail->setSent(new \DateTime());
+
+            $entityManager->persist($mail);
+            $entityManager->flush();
         }
-
-        $mail->setSent(new \DateTime());
-
-        $entityManager->persist($mail);
-        $entityManager->flush();
 
         return $this->redirect($this->get("router")->generate("HexMediaNewsletterMail"));
     }
