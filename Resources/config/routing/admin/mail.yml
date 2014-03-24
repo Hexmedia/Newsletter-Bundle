@@ -34,6 +34,20 @@ HexMediaNewsletterMailUpdate:
     options:
         expose: true
 
+HexMediaNewsletterMailTest:
+    pattern: /test
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:test }
+    methods: [ POST, GET ]
+    options:
+        expose: true
+
+HexMediaNewsletterMailPreview:
+    pattern: /preview
+    defaults: { _controller: HexmediaNewsletterBundle:AdminMail:preview }
+    methods: [ POST, GET ]
+    options:
+        expose: true
+
 HexMediaNewsletterMailDelete:
     pattern: /{id}/delete
     defaults: { _controller: HexmediaNewsletterBundle:AdminMail:delete }
