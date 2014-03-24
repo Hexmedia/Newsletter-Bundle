@@ -188,17 +188,6 @@ class AdminMailController extends Controller
 
         if ($liip instanceof \Liip\ImagineBundle\Imagine\Cache\CacheManager) ;
 
-        $sponsors = $this->getDoctrine()->getRepository("CinemaForumCatalogBundle:Sponsor")->findAll();
-
-        var_dump($sponsors);
-
-        $sponsorImages = [];
-
-        foreach ($sponsors as $sponsor) {
-            if ($sponsor instanceof Sponsor);
-            $sponsorImages[] = $liip->generateUrl($sponsor->getLogo()->getFileName(), '');
-        }
-
         return $this->render(
             $this->container->getParameter("newsletter_template"),
             [
@@ -206,7 +195,7 @@ class AdminMailController extends Controller
                 'title' => $request->get("title"),
                 'header' => $asset->getUrl("bundles/cinemaforumnewsletter/img/header.jpg"),
                 'more' => $asset->getUrl("bundles/cinemaforumnewsletter/img/more.jpg"),
-                'sponsors' => $sponsorsImages,
+                'sponsors' => $asset->getUrl("bundles/cinemaforumnewsletter/img/sponsors.gif"),
                 'spacer1' => $asset->getUrl("bundles/cinemaforumnewsletter/img/spacer1.jpg"),
                 'spacer2' => $asset->getUrl("bundles/cinemaforumnewsletter/img/spacer2.gif"),
                 'place' => $asset->getUrl("bundles/cinemaforumnewsletter/img/place.jpg"),
@@ -228,7 +217,7 @@ class AdminMailController extends Controller
         $message = \Swift_Message::newInstance()
             ->setSubject($request->get("title"))
             ->setFrom($this->container->getParameter("newsletter_from"), $this->container->getParameter("newsletter_formname"))
-            ->setTo($request->get("to"))
+            ->setTo($request->get("to"), "testowy email")
             ->setCharset("UTF-8")
             ->setContentType("text/html");
         $message
@@ -245,12 +234,30 @@ class AdminMailController extends Controller
                         'place' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/place.jpg"))),
                         'mail' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/mail.jpg"))),
                         'phone' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/phone.jpg"))),
-                        'apollo' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/apollo.jpg")))
+                        'apollo' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/apollo.jpg"))),
+                        'sponsors' => $message->embed($this->getSwiftImage($asset->getUrl("bundles/cinemaforumnewsletter/img/sponsors.gif"))),
                     ]
                 ), 'text/html'
             );
 
 
-        return $this->redirect($this->get("router")->generate("HexMediaNewsletterMail"));
+        $this->get('mailer')->send($message);
+
+        return $this->render(
+            $this->container->getParameter("newsletter_template"),
+            [
+                'content' => $request->get("content"),
+                'title' => $request->get("title"),
+                'header' => $asset->getUrl("bundles/cinemaforumnewsletter/img/header.jpg"),
+                'more' => $asset->getUrl("bundles/cinemaforumnewsletter/img/more.jpg"),
+                'sponsors' => $asset->getUrl("bundles/cinemaforumnewsletter/img/sponsors.gif"),
+                'spacer1' => $asset->getUrl("bundles/cinemaforumnewsletter/img/spacer1.jpg"),
+                'spacer2' => $asset->getUrl("bundles/cinemaforumnewsletter/img/spacer2.gif"),
+                'place' => $asset->getUrl("bundles/cinemaforumnewsletter/img/place.jpg"),
+                'mail' => $asset->getUrl("bundles/cinemaforumnewsletter/img/mail.jpg"),
+                'phone' => $asset->getUrl("bundles/cinemaforumnewsletter/img/phone.jpg"),
+                'apollo' => $asset->getUrl("bundles/cinemaforumnewsletter/img/apollo.jpg")
+            ]
+        );
     }
 }
