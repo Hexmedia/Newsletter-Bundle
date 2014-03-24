@@ -7,3 +7,16 @@ services:
         arguments: [ "@translator" ]
         tags:
             - { name: kernel.event_subscriber }
+
+
+    hexmedia.twig.mail_embed:
+        class: Hexmedia\NewsletterBundle\Twig\Extension\MailExtension
+        arguments: [ "@hexmedia.templating.helper.mail_embed" ]
+        tags:
+            - { name: twig.extension }
+
+    hexmedia.templating.helper.mail_embed:
+        class: Hexmedia\NewsletterBundle\Templating\Helper\MailHelper
+        arguments: [ "@service_container" ]
+        tags:
+            - { name: templating.helper, alias: mail_embed }

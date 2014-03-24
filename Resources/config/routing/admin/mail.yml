@@ -16,6 +16,8 @@ HexMediaNewsletterMailEdit:
     pattern: /{id}/edit
     defaults: { _controller: HexmediaNewsletterBundle:AdminMail:edit }
     methods: [GET]
+    requirements:
+        id: \d+
     options:
         expose: true
 
@@ -35,16 +37,20 @@ HexMediaNewsletterMailUpdate:
         expose: true
 
 HexMediaNewsletterMailTest:
-    pattern: /test
+    pattern: /{id}/test
     defaults: { _controller: HexmediaNewsletterBundle:AdminMail:test }
     methods: [ POST, GET ]
+    requirements:
+        id: \d+
     options:
         expose: true
 
 HexMediaNewsletterMailPreview:
-    pattern: /preview
+    pattern: /{id}/preview
     defaults: { _controller: HexmediaNewsletterBundle:AdminMail:preview }
     methods: [ POST, GET ]
+    requirements:
+        id: \d+
     options:
         expose: true
 

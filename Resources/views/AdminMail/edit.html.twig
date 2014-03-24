@@ -3,15 +3,24 @@
 {% block title %}{{ 'Edit Mail'|trans }}{% endblock title %}
 
 {% block body -%}
+    <script type="text/javascript">
+        (function () {
+            $(document).ready(function () {
+                $('.check-email').click(function () {
+                    window.open($(this).attr('href') + "?to=" + $('[name="test_to"]').val(), "preview", "width=900,height=800");
+
+                    return false;
+                });
+            });
+        }(jQuery));
+    </script>
+
     {{ form_start(form, {'attr' : { 'class' : 'form-horizontal' } }) }}
     <div class="buttons-bar">
         {% include "HexmediaAdministratorBundle:Form:buttons.html.twig" with {'form' : form, 'exit': 'HexMediaNewsletterMail'} only %}
-        {% if entity.sent == false %}
-            <a href="{{ path("HexMediaNewsletterMailSend", {'id': entity.id}) }}"
-               class="btn btn-danger">{{ 'Send'|trans }}</a>
-        {% else %}
-            {{ 'Already Sent'|trans }}
-        {% endif %}
+
+        <a href="{{ path("HexMediaNewsletterMailSend", {'id': entity.id}) }}"
+           class="btn btn-danger">{% if entity.sent == false %}{{ 'Send'|trans }}{% else %}{{ 'Resend'|trans }}{% endif %}</a>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -24,6 +33,18 @@
                 <legend>{{ 'Content'|trans }}</legend>
                 {{ form_widget(form.content) }}
                 {{ form_errors(form.content) }}
+            </fieldset>
+
+            <fieldset>
+                <legend>{{ 'Test'|trans }}</legend>
+
+                <input name="test_to" value="" type="text" class="form-control" placeholder="Enter test email here"/>
+
+                <a href="{{ path("HexMediaNewsletterMailPreview", {'id': entity.id}) }}"
+                   class="btn btn-danger check-email">{{ 'Preview'|trans }}</a>
+
+                <a href="{{ path("HexMediaNewsletterMailTest", {'id': entity.id}) }}"
+                   class="btn btn-danger check-email" style="margin-left: 20px;">{{ 'Send test'|trans }}</a>
             </fieldset>
         </div>
     </div>
