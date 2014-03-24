@@ -117,7 +117,8 @@ class AdminPersonController extends Controller
      *
      * @Rest\View(template="HexmediaNewsletterBundle:AdminPerson:list.html.twig")
      */
-    public function listAction($page = 1) {
+    public function listAction($page = 1)
+    {
         return parent::listAction($page);
     }
 
@@ -143,18 +144,23 @@ class AdminPersonController extends Controller
 
                     foreach ($lines as $line) {
                         $exp = explode(";", $line);
-                        $email = $exp[1];
-                        $name = $exp[0];
 
-                        $person = $repo->findOneByEmail($email);
+                        if (sizeof($exp) == 2) {
+                            $email = $exp[1];
+                            $name = $exp[0];
 
-                        if (!($person instanceof Person)) {
-                            $person = new Person();
+                            $person = $repo->findOneByEmail($email);
 
-                            $person->setName($name);
-                            $person->setEmail($email);
+                            if (!($person instanceof Person)) {
+                                $person = new Person();
 
-                            $entityManager->persist($person);
+                                $person->setName($name);
+                                $person->setEmail($email);
+
+                                $entityManager->persist($person);
+                            }
+                        } else {
+                            var_dump($line);
                         }
                     }
 

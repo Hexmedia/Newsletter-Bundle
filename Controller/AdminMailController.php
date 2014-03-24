@@ -241,7 +241,11 @@ class AdminMailController extends Controller
             );
 
 
-        $this->get('mailer')->send($message);
+        $failures = [];
+
+        $this->get('mailer')->send($message, $failures);
+
+        var_dump($failures);
 
         return $this->render(
             $this->container->getParameter("newsletter_template"),
