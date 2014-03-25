@@ -12,6 +12,7 @@ use Hexmedia\NewsletterBundle\Form\Type\Mail\AddType;
 use Hexmedia\NewsletterBundle\Form\Type\Mail\EditType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class AdminMailController extends Controller
 {
@@ -177,7 +178,7 @@ class AdminMailController extends Controller
 
     private function renderMessage(Mail $mail, Person $person, \Swift_Message $message = null)
     {
-        return $this->renderView(
+        $html = $this->renderView(
             $this->container->getParameter("newsletter_template"),
             [
                 'content' => $mail->getContent(),
@@ -187,6 +188,16 @@ class AdminMailController extends Controller
                 'message' => $message,
             ]
         );
+
+        $css = $this->renderView(
+            $this->container->getParameter("newsletter_css"),
+            []
+        );
+
+        $converter = new CssToInlineStyles($html, $css);
+        $view = $converter->convert();
+
+        return $view;
     }
 
     /**
