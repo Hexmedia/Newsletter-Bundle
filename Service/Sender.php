@@ -4,6 +4,7 @@ namespace Hexmedia\NewsletterBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Hexmedia\NewsletterBundle\Entity\Mail;
+use Hexmedia\NewsletterBundle\Entity\Person;
 use Hexmedia\NewsletterBundle\Entity\SentTo;
 use Hexmedia\NewsletterBundle\Repository\SentToRepositoryInterface;
 use Hexmedia\NewsletterBundle\Templating\Helper\MailHelper;
@@ -58,6 +59,17 @@ class Sender
         foreach ($mails as $mail) {
             $this->sendOne($mail);
         }
+
+        $sentTo = new SentTo();
+
+        $person = new Person();
+        $person->setEmail("raport@newcineforum.pl");
+        $person->setName("Report");
+
+        $sentTo->setMail($mail->getMail());
+        $sentTo->setPerson($person);
+
+        $this->sendTo($mail, false);
     }
 
     public function sendOne(SentTo $mail, $save = true)
