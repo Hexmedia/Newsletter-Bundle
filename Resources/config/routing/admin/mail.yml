@@ -69,7 +69,6 @@ HexMediaNewsletterMail:
     methods: [ GET ]
     requirements:
         page: \d+
-        sort: ((obj)|(parent)\.[a-zA-Z0-0]+)
         direction: asc|desc
     options:
         expose: true
@@ -79,7 +78,6 @@ HexMediaNewsletterMailList:
     defaults: { _controller: HexmediaNewsletterBundle:AdminMail:list, page: 1, sort: obj.id, direction: desc }
     requirements:
         page: \d+
-        sort: ((obj)|(parent)\.[a-zA-Z0-0]+)
         direction: asc|desc
     methods: [ GET ]
     options:

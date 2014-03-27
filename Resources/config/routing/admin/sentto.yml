@@ -4,7 +4,6 @@ HexMediaNewsletterMailSent:
     requirements:
         id: \d+
         page: \d+
-        sort: ((obj)|(parent)\.[a-zA-Z0-0]+)
         direction: asc|desc
     methods: [ GET ]
     options:

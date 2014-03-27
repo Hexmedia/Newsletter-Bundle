@@ -19,22 +19,19 @@ class SendCommand extends ContainerAwareCommand {
 		$this
 			->setName('hexmedia:newsletter:send')
 			->setDescription("Send Newsletter")
+            ->addArgument(
+                'limit',
+                InputArgument::OPTIONAL,
+                'Mails to be send in this run.'
+            )
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
         $sendService = $this->getContainer()->get("hexmedia.newsletter.sender");
 
-        $sendService->sendMany(20);
+        $sendService->sendMany($input->getArgument("limit"));
 	}
-
-    private function getDefaultInput(InputInterface $input) {
-//        $newInput = new ArgvInput();
-
-//        $newInput->setOption("env", $input->getOption("env"));
-
-        return $input; //$newInput;
-    }
 
 }
 

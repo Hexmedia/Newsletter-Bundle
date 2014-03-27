@@ -1,5 +1,5 @@
-<th>{{ 'Title'|trans }}</th>
-<th>{{ 'Sent date'|trans }}</th>
-<th>{{ 'Open date'|trans }}</th>
-<th>{{ 'Receiver Name'|trans }}</th>
-<th>{{ 'Receiver email'|trans }}</th>
+<th>{{ knp_pagination_sortable(pagination, 'Title'|trans, "obj.mailTitle") }}</th>
+<th>{{ knp_pagination_sortable(pagination, 'Sent date'|trans, "obj.dateSent") }}</th>
+<th>{{ knp_pagination_sortable(pagination, 'Open date'|trans, "obj.dateOpen") }}</th>
+<th>{{ knp_pagination_sortable(pagination, 'Receiver name'|trans, "person.email") }}</th>
+<th>{{ knp_pagination_sortable(pagination, 'Receiver email'|trans, "person.name") }}</th>

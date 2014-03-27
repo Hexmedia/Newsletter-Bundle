@@ -60,8 +60,8 @@ class AdminPersonController extends Controller
         );
 
         $this->breadcrumbs->addItem(
-            $this->get('translator')->trans("Mail"),
-            $this->get('router')->generate('HexMediaNewsletterMail')
+            $this->get('translator')->trans("Person"),
+            $this->get('router')->generate('HexMediaNewsletterPerson')
         );
 
         return $this->breadcrumbs;

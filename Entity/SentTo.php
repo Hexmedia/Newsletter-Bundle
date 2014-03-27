@@ -56,6 +56,7 @@ class SentTo
      * @var Mail
      *
      * @ORM\ManyToOne(targetEntity="Hexmedia\NewsletterBundle\Entity\Mail", inversedBy="sentTo")
+     * @ORM\JoinColumn(name="mail_id", onDelete="CASCADE")
      */
     private $mail;
 
@@ -63,6 +64,7 @@ class SentTo
      * @var Person
      *
      * @ORM\ManyToOne(targetEntity="Hexmedia\NewsletterBundle\Entity\Person", inversedBy="sentTo")
+     * @ORM\JoinColumn(name="person_id", onDelete="CASCADE")
      */
     private $person;
 
