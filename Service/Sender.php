@@ -90,7 +90,7 @@ class Sender
         $message = \Swift_Message::newInstance()
             ->setSubject($mail->getMail()->getTitle())
             ->setFrom($this->container->getParameter("newsletter_from"), $this->container->getParameter("newsletter_fromname"))
-            ->setTo($mail->getPerson()->getEmail(), $mail->getPerson()->getName())
+            ->setTo(trim($mail->getPerson()->getEmail()), trim($mail->getPerson()->getName()))
             ->setCharset("UTF-8")
             ->setContentType("text/html");
 

@@ -135,6 +135,7 @@ class AdminPersonController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $repo = $this->getDoctrine()->getRepository("HexmediaNewsletterBundle:Person");
 
+            //FIXME: Should use some cvs parser.
             $form->handleRequest($request);
             if ($form->isValid()) {
                 foreach ($form->getData("files") as $file) {
@@ -146,8 +147,8 @@ class AdminPersonController extends Controller
                         $exp = explode(";", $line);
 
                         if (sizeof($exp) == 2) {
-                            $email = $exp[1];
-                            $name = $exp[0];
+                            $email = trim($exp[1]);
+                            $name = trim($exp[0]);
 
                             $person = $repo->findOneByEmail($email);
 
