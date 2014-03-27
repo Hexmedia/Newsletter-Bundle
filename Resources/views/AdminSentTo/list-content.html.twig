@@ -1,3 +1,5 @@
 <td>{{ entity.mailTitle }}</td>
 <td>{% if entity.dateSent %}{{ entity.dateSent|simple_time_formatter }}{% else %}&nbsp;{% endif %}</td>
 <td>{% if entity.dateOpen %}{{ entity.dateOpen|simple_time_formatter }}{% else %}&nbsp;{% endif %}</td>
+<td>{{ entity.person.name }}</td>
+<td><a href="mailto: {{ entity.person.email }}">{{ entity.person.email }}</a></td>
