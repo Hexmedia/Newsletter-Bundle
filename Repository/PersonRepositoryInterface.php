@@ -2,6 +2,8 @@
 
 namespace Hexmedia\NewsletterBundle\Repository;
 
-interface PersonRepositoryInterface {
+use Hexmedia\NewsletterBundle\Entity\Mail;
 
+interface PersonRepositoryInterface {
+    public function getPeopleToSent(Mail $mail) ;
 } 

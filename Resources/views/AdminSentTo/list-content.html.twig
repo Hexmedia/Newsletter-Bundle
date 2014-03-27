@@ -1,0 +1,3 @@
+<td>{{ entity.mailTitle }}</td>
+<td>{% if entity.dateSent %}{{ entity.dateSent|simple_time_formatter }}{% else %}&nbsp;{% endif %}</td>
+<td>{% if entity.dateOpen %}{{ entity.dateOpen|simple_time_formatter }}{% else %}&nbsp;{% endif %}</td>

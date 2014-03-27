@@ -51,13 +51,14 @@ class Person
     private $lastSent;
 
     /**
-     * @var \Hexmedia\NewsletterBundle\Entity\Mail
+     * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Hexmedia\NewsletterBundle\Entity\Mail", inversedBy="persons")
-     * @ORM\JoinTable(name="newsletter_sent_to",
-     *        joinColumns={@ORM\JoinColumn(name="newsletter_id", referencedColumnName="id")},
-     *        inverseJoinColumns={@ORM\JoinColumn(name="mail_id", referencedColumnName="id")}
-     *    )
+     * @ORM\OneToMany(targetEntity="\Hexmedia\NewsletterBundle\Entity\SentTo", mappedBy="person")
+     */
+    private $sentTo;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $mails;
 
@@ -68,6 +69,7 @@ class Person
     public function __construct()
     {
         $this->mails = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sentTo = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -203,5 +205,38 @@ class Person
     public function getMails()
     {
         return $this->mails;
+    }
+
+    /**
+     * Add sentTo
+     *
+     * @param SentTo $sentTo
+     * @return Person
+     */
+    public function addSentTo(SentTo $sentTo)
+    {
+        $this->sentTo[] = $sentTo;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sentTo
+     *
+     * @param SentTo $sentTo
+     */
+    public function removeSentTo(SentTo $sentTo)
+    {
+        $this->sentTo->removeElement($sentTo);
+    }
+
+    /**
+     * Get sentTo
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSentTo()
+    {
+        return $this->sentTo;
     }
 }

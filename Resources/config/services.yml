@@ -1,4 +1,5 @@
 parameters:
+    hexmedia_newsletter_sender_class: Hexmedia\NewsletterBundle\Service\Sender
 #    hexmedia_newsletter.example.class: Hexmedia\NewsletterBundle\Example
 
 services:
@@ -8,6 +9,9 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    hexmedia.newsletter.sender:
+        class: %hexmedia_newsletter_sender_class%
+        arguments: [ "@doctrine.orm.entity_manager", "@mailer", "@hexmedia.templating.helper.mail_embed", "@templating", "@service_container" ]
 
     hexmedia.twig.mail_embed:
         class: Hexmedia\NewsletterBundle\Twig\Extension\MailExtension

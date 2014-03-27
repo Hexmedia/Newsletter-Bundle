@@ -33,6 +33,7 @@ class MailExtension extends \Twig_Extension
 	{
 		return array(
 			new \Twig_SimpleFunction('mail_embed', array($this, 'embed')),
+            new \Twig_SimpleFunction('mail_stat', array($this, 'stat'))
 		);
 	}
 
@@ -50,6 +51,10 @@ class MailExtension extends \Twig_Extension
 	{
 		return $this->helper->embed($path, $message, $toEmail, $fullUrl);
 	}
+
+    public function stat($id) {
+        return $this->helper->stat($id);
+    }
 
 	/**
 	 * Returns the name of the extension.

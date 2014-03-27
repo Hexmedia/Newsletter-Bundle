@@ -13,9 +13,9 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  */
 class Mail
 {
-//    use ORMBehaviors\Blameable\Blameable,
-//        ORMBehaviors\Timestampable\Timestampable,
-//        ORMBehaviors\Loggable\Loggable;
+    use ORMBehaviors\Blameable\Blameable,
+        ORMBehaviors\Timestampable\Timestampable,
+        ORMBehaviors\Loggable\Loggable;
 
     /**
      * @var integer
@@ -48,11 +48,25 @@ class Mail
     private $sent;
 
     /**
-     * @var \Hexmedia\NewsletterBundle\Entity\Person
+     * @var \Doctrine\Common\Collections\ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Hexmedia\NewsletterBundle\Entity\Person", mappedBy="mails")
+     * @ORM\OneToMany(targetEntity="\Hexmedia\NewsletterBundle\Entity\SentTo", mappedBy="mail")
+     */
+    private $sentTo;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $persons;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sentTo = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -109,14 +123,6 @@ class Mail
     {
         return $this->content;
     }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
     /**
      * Set sent
@@ -172,5 +178,38 @@ class Mail
     public function getPersons()
     {
         return $this->persons;
+    }
+
+    /**
+     * Add sentTo
+     *
+     * @param SentTo $sentTo
+     * @return Mail
+     */
+    public function addSentTo(SentTo $sentTo)
+    {
+        $this->sentTo[] = $sentTo;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sentTo
+     *
+     * @param SentTo $sentTo
+     */
+    public function removeSentTo(SentTo $sentTo)
+    {
+        $this->sentTo->removeElement($sentTo);
+    }
+
+    /**
+     * Get sentTo
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSentTo()
+    {
+        return $this->sentTo;
     }
 }

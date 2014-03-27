@@ -6,6 +6,7 @@ use CinemaForum\CatalogBundle\Entity\Sponsor;
 use Hexmedia\AdministratorBundle\Controller\CrudController as Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Hexmedia\NewsletterBundle\Entity\Person;
+use Hexmedia\NewsletterBundle\Entity\SentTo;
 use Hexmedia\NewsletterBundle\Repository\Doctrine\MailRepository;
 use Hexmedia\NewsletterBundle\Entity\Mail;
 use Hexmedia\NewsletterBundle\Form\Type\Mail\AddType;
@@ -46,6 +47,16 @@ class AdminMailController extends Controller
     protected function getListTemplate()
     {
         return "HexmediaNewsletterBundle:AdminMail";
+    }
+
+    /**
+     * @param int $page
+     * @return array|void
+     *
+     * @Rest\View(template="HexmediaNewsletterBundle:AdminMail:list.html.twig")
+     */
+    public function listAction($page = 1) {
+        return parent::listAction($page);
     }
 
     /**
@@ -129,76 +140,25 @@ class AdminMailController extends Controller
 
             foreach ($persons as $person) {
                 if ($person instanceof Person) {
-                    $message = $this->getMessage($mail, $person);
+                    $sentTo = new SentTo();
 
-                    $failures = [];
-                    $this->get('mailer')->send($message, $failures);
+                    $sentTo->setPerson($person);
+                    $sentTo->setMail($mail);
 
-                    $person->addMail($mail);
-                    $entityManager->persist($person);
+                    $entityManager->persist($sentTo);
                 }
             }
 
             $mail->setSent(new \DateTime());
 
             $entityManager->persist($mail);
+
             $entityManager->flush();
         }
 
         return $this->redirect($this->get("router")->generate("HexMediaNewsletterMail"));
     }
 
-    /**
-     * @param Mail $mail
-     * @param Person $person
-     * @return \Swift_Message
-     */
-    private function getMessage(Mail $mail, Person $person)
-    {
-        $helper = $this->get("hexmedia.templating.helper.mail_embed");
-
-        $message = \Swift_Message::newInstance()
-            ->setSubject($mail->getTitle())
-            ->setFrom($this->container->getParameter("newsletter_from"), $this->container->getParameter("newsletter_formname"))
-            ->setTo($person->getEmail(), $person->getName())
-            ->setCharset("UTF-8")
-            ->setContentType("text/html");
-
-        $helper->setEmbed(true);
-        $helper->setMessage($message);
-
-        $message
-            ->setBody($this->renderMessage($mail, $person, $message), 'text/html');
-
-        $helper->setEmbed(false);
-        $helper->setMessage(null);
-
-        return $message;
-    }
-
-    private function renderMessage(Mail $mail, Person $person, \Swift_Message $message = null)
-    {
-        $html = $this->renderView(
-            $this->container->getParameter("newsletter_template"),
-            [
-                'content' => $mail->getContent(),
-                'title' => $mail->getTitle(),
-                'name' => $person->getName(),
-                'email' => $person->getEmail(),
-                'message' => $message,
-            ]
-        );
-
-        $css = $this->renderView(
-            $this->container->getParameter("newsletter_css"),
-            []
-        );
-
-        $converter = new CssToInlineStyles($html, $css);
-        $view = $converter->convert();
-
-        return $view;
-    }
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -214,9 +174,14 @@ class AdminMailController extends Controller
         $person->setName($request->get("to_name"));
         $person->setEmail($request->get("to"));
 
-        $this->get("hexmedia.templating.helper.mail_embed")->setEmbed(false);
+        $sentTo = new SentTo();
+        $sentTo->setMail($mail);
+        $sentTo->setPerson($person);
 
-        return new Response($this->renderMessage($mail, $person), 200);
+        $this->get("hexmedia.templating.helper.mail_embed")->setEmbed(false);
+        $sender = $this->get("hexmedia.newsletter.sender");
+
+        return new Response($sender->renderMail($sentTo), 200);
     }
 
     /**
@@ -233,12 +198,16 @@ class AdminMailController extends Controller
         $person->setName($request->get("to_name"));
         $person->setEmail($request->get("to"));
 
-        $message = $this->getMessage($mail, $person);
+        $sentTo = new SentTo();
+        $sentTo->setMail($mail);
+        $sentTo->setPerson($person);
 
-        $failures = [];
+        $sender = $this->get("hexmedia.newsletter.sender");
 
-        $this->get("mailer")->send($message, $failures);
+        $sender->sendOne($sentTo, false);
 
-        return new Response($this->renderMessage($mail, $person), 200);
+        $this->get("hexmedia.templating.helper.mail_embed")->setEmbed(false);
+
+        return new Response($sender->renderMail($sentTo), 200);
     }
 }

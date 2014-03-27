@@ -2,6 +2,7 @@
 
 namespace Hexmedia\NewsletterBundle\Templating\Helper;
 
+use Hexmedia\NewsletterBundle\Entity\Mail;
 use Symfony\Component\DependencyInjection\IntrospectableContainerInterface;
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToTimestampTransformer;
@@ -97,7 +98,7 @@ class MailHelper extends Helper
     {
 
         if ($fullUrl == false) {
-            $url = $this->serviceContainer->get("request")->getSchemeAndHttpHost() . $path;
+            $url = $this->serviceContainer->getParameter("newsletter_base") . $path;
         } else {
             $url = $path;
         }
@@ -116,5 +117,14 @@ class MailHelper extends Helper
         }
     }
 
+    public function stat($mailId)
+    {
+        $env = $this->serviceContainer->get("kernel")->getEnvironment();
+        $file = "app_$env.php";
+
+        $url = $this->serviceContainer->getParameter("newsletter_base") . $file . $this->serviceContainer->get("router")->generate("_hexmedia_newsletter_stat", ['id' => $mailId]);
+
+        return $url;
+    }
 }
 

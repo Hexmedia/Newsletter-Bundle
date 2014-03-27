@@ -1,0 +1,23 @@
+{% spaceless %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            {% include template ~ ":list-header.html.twig" with { pagination: pagination, route: route, routeParams: routeParams } only %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                {% include template ~ ":list-content.html.twig" with { entity: entity, route: route, routeParams: routeParams } only %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+{% endspaceless %}

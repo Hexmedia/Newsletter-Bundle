@@ -9,3 +9,7 @@ _hexmedia_newsletter_person:
 _hexmedia_newsletter_dashboard:
     resource: "@HexmediaNewsletterBundle/Resources/config/routing/admin/dashboard.yml"
     prefix: /
+
+_hexmedia_newsletter_sentto:
+    resource: "@HexmediaNewsletterBundle/Resources/config/routing/admin/sentto.yml"
+    prefix: /mail

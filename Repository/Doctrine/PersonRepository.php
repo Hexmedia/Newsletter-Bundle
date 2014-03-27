@@ -20,10 +20,11 @@ class PersonRepository extends EntityRepository implements PersonRepositoryInter
     public function getPeopleToSent(Mail $mail) {
         $queryBuilder = $this->createQueryBuilder("p");
 
-        $queryBuilder->leftJoin('p.mails', 'm');
+        $queryBuilder->leftJoin('p.sentTo', 'st', 'WITH', 'st.mail=:mailId');
         $queryBuilder->where(
-            $queryBuilder->expr()->isNull("m.id")
+            $queryBuilder->expr()->isNull("st.id")
         );
+        $queryBuilder->setParameter(":mailId", $mail->getId());
 
         return $queryBuilder->getQuery()->getResult();
     }

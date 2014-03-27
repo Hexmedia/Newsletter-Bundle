@@ -1,0 +1,11 @@
+HexMediaNewsletterMailSent:
+    pattern: /sent/{id}/{page}/{sort}/{direction}
+    defaults: { _controller: HexmediaNewsletterBundle:AdminSentTo:index, page: 1, sort: obj.id, direction: desc }
+    requirements:
+        id: \d+
+        page: \d+
+        sort: ((obj)|(parent)\.[a-zA-Z0-0]+)
+        direction: asc|desc
+    methods: [ GET ]
+    options:
+        expose: true

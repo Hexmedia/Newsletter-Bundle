@@ -75,7 +75,7 @@ HexMediaNewsletterMail:
         expose: true
 
 HexMediaNewsletterMailList:
-    pattern: /list/{page}/{sort}/{pageSize}/{sortDirection}
+    pattern: /list/{page}/{sort}/{direction}
     defaults: { _controller: HexmediaNewsletterBundle:AdminMail:list, page: 1, sort: obj.id, direction: desc }
     requirements:
         page: \d+

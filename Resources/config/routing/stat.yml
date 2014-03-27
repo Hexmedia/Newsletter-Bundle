@@ -1,0 +1,5 @@
+_hexmedia_newsletter_stat:
+    pattern: /news/{id}/hexmedia.gif
+    defaults: { _controller: HexmediaNewsletterBundle:Mail:stat }
+    requirements:
+        id: \d*
